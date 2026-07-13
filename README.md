@@ -1,5 +1,7 @@
 # Sentinel — Spam & Phishing Email Detector
 
+Deployed on render.com: https://sentinel-spammaildetector-qoi7.onrender.com/
+
 ## Folder structure
 ```
 spam-detector/
