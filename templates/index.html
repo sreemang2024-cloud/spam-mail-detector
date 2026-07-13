@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentinel — Spam &amp; Phishing Detection</title>
+<meta name="description" content="An NLP pipeline that classifies emails as spam or legitimate. Bring your own Kaggle dataset, train, and detect in real time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="scan-progress" id="scanProgress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      Sentinel
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#dataset">Dataset</a>
+      <a href="#detect">Detect</a>
+      <a href="#batch">Batch</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#history">History</a>
+    </nav>
+    <a href="#detect" class="btn btn-ghost nav-cta">Open Console</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">NLP · Machine Learning · Email Security</p>
+        <h1>Every inbox<br>deserves a filter<br>it can trust.</h1>
+        <p class="hero-sub">Sentinel is a self-contained spam &amp; phishing classifier. Feed it any labeled Kaggle dataset, train a model in seconds, and get transparent, explainable verdicts on real emails — not just a score.</p>
+        <div class="hero-actions">
+          <a href="#dataset" class="btn btn-primary">Bring your dataset</a>
+          <a href="#detect" class="btn btn-outline">Try the live console</a>
+        </div>
+        <div class="hero-stats" id="heroStats">
+          <div class="hero-stat">
+            <span class="hero-stat-value" data-stat="accuracy">—</span>
+            <span class="hero-stat-label">Model accuracy</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-value" data-stat="total">—</span>
+            <span class="hero-stat-label">Training examples</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-value" data-stat="status">Untrained</span>
+            <span class="hero-stat-label">Pipeline status</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-console">
+        <div class="console" id="heroConsole">
+          <div class="console-head">
+            <span class="console-dot"></span>
+            <span class="console-dot"></span>
+            <span class="console-dot"></span>
+            <span class="console-title">scan.session</span>
+          </div>
+          <div class="console-line"></div>
+          <textarea id="heroInput" class="console-input" rows="7" placeholder="Paste an email or message here to scan it instantly...">Subject: URGENT — verify your account now!!
+
+Dear customer, we detected unusual activity. Click here immediately to confirm your identity or your account will be suspended within 24 hours: http://secure-verify-account.com/confirm</textarea>
+          <button class="btn btn-primary console-scan-btn" id="heroScanBtn">
+            <span>Scan message</span>
+          </button>
+          <div class="console-result" id="heroResult" hidden>
+            <div class="verdict-row">
+              <span class="verdict-badge" id="heroBadge">—</span>
+              <span class="verdict-confidence" id="heroConfidence"></span>
+            </div>
+            <div class="feature-grid" id="heroFeatures"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section how" id="how">
+    <div class="section-inner">
+      <p class="eyebrow">The pipeline</p>
+      <h2>Three steps from raw CSV to working filter.</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="step-index">01</span>
+          <h3>Upload a dataset</h3>
+          <p>Drop in any Kaggle spam/ham CSV — SMS Spam Collection, Enron, phishing corpora. Sentinel auto-detects the label and text columns.</p>
+        </div>
+        <div class="step">
+          <span class="step-index">02</span>
+          <h3>Train the model</h3>
+          <p>A TF-IDF vectorizer feeds a Logistic Regression or Naive Bayes classifier. Metrics — accuracy, precision, recall, F1 — are computed on a held-out test split.</p>
+        </div>
+        <div class="step">
+          <span class="step-index">03</span>
+          <h3>Detect in real time</h3>
+          <p>Paste a single email or upload a batch. Every verdict comes with a confidence score and the exact signals that drove it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATASET UPLOAD -->
+  <section class="section alt" id="dataset">
+    <div class="section-inner">
+      <p class="eyebrow">Step 01</p>
+      <h2>Bring your own dataset</h2>
+      <p class="section-lede">Download a labeled spam dataset from Kaggle (e.g. "SMS Spam Collection Dataset" or "Spam Email Dataset"), then upload the CSV here. Columns named <code>label</code>/<code>text</code>, <code>v1</code>/<code>v2</code>, or <code>category</code>/<code>message</code> are detected automatically.</p>
+
+      <div class="grid-2">
+        <div class="card dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload dataset CSV">
+          <input type="file" id="fileInput" accept=".csv" hidden>
+          <div class="dropzone-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0-12 4 4m-4-4-4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p class="dropzone-title">Drop your CSV here, or click to browse</p>
+          <p class="dropzone-sub">Max 100 MB · label/text columns auto-detected</p>
+          <div class="dropzone-status" id="dropzoneStatus"></div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Dataset preview</h3>
+          <div id="datasetPreviewEmpty" class="empty-note">No dataset uploaded yet. Sentinel ships with a small bundled sample so you can try training immediately.</div>
+          <div id="datasetPreviewTable" class="table-scroll" hidden></div>
+          <div class="card-footer-row">
+            <span class="tag" id="datasetRowCount"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAIN -->
+  <section class="section" id="train">
+    <div class="section-inner">
+      <p class="eyebrow">Step 02</p>
+      <h2>Train the classifier</h2>
+      <p class="section-lede">Choose an algorithm and train on your uploaded dataset — or the bundled sample if you haven't uploaded one yet.</p>
+
+      <div class="grid-2 align-start">
+        <div class="card">
+          <h3 class="card-title">Training configuration</h3>
+          <div class="field">
+            <label for="algoSelect">Algorithm</label>
+            <select id="algoSelect">
+              <option value="logreg">Logistic Regression (recommended)</option>
+              <option value="nb">Multinomial Naive Bayes</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Source dataset</label>
+            <div class="source-pill" id="sourcePill">Bundled sample (300 rows)</div>
+          </div>
+          <button class="btn btn-primary btn-block" id="trainBtn">Train model</button>
+          <div class="train-progress" id="trainProgress" hidden>
+            <div class="train-bar"><span id="trainBarFill"></span></div>
+            <p id="trainStatusText">Training in progress…</p>
+          </div>
+          <div class="form-error" id="trainError" hidden></div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Latest run</h3>
+          <div id="metricsEmpty" class="empty-note">No model trained in this session yet.</div>
+          <div id="metricsBlock" hidden>
+            <div class="metric-grid">
+              <div class="metric"><span class="metric-value" id="mAccuracy">—</span><span class="metric-label">Accuracy</span></div>
+              <div class="metric"><span class="metric-value" id="mPrecision">—</span><span class="metric-label">Precision</span></div>
+              <div class="metric"><span class="metric-value" id="mRecall">—</span><span class="metric-label">Recall</span></div>
+              <div class="metric"><span class="metric-value" id="mF1">—</span><span class="metric-label">F1 score</span></div>
+            </div>
+            <h4 class="confusion-title">Confusion matrix</h4>
+            <table class="confusion-table" id="confusionTable"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE DETECTION -->
+  <section class="section alt" id="detect">
+    <div class="section-inner">
+      <p class="eyebrow">Step 03</p>
+      <h2>Live detection console</h2>
+      <p class="section-lede">Paste the full text of an email, including subject line if you have it. Sentinel returns a verdict, a confidence score, and the exact features behind the call.</p>
+
+      <div class="grid-2 align-start">
+        <div class="card">
+          <label for="detectInput" class="card-title">Email content</label>
+          <textarea id="detectInput" class="textarea" rows="10" placeholder="Paste the email text here..."></textarea>
+          <button class="btn btn-primary btn-block" id="detectBtn">Analyze email</button>
+          <div class="form-error" id="detectError" hidden></div>
+        </div>
+
+        <div class="card result-card">
+          <h3 class="card-title">Verdict</h3>
+          <div id="detectEmpty" class="empty-note">Run an analysis to see the verdict, confidence, and feature breakdown here.</div>
+          <div id="detectResult" hidden>
+            <div class="verdict-row large">
+              <span class="verdict-badge" id="detectBadge">—</span>
+              <span class="verdict-confidence" id="detectConfidence"></span>
+            </div>
+            <div class="confidence-bar-track"><span id="confidenceBarFill"></span></div>
+            <h4 class="feature-heading">Signals detected</h4>
+            <div class="feature-grid" id="detectFeatures"></div>
+            <div id="keywordSection" class="keyword-section" hidden>
+              <h4 class="feature-heading">Trigger phrases</h4>
+              <div class="keyword-chips" id="keywordChips"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BATCH ANALYSIS -->
+  <section class="section" id="batch">
+    <div class="section-inner">
+      <p class="eyebrow">Bulk workflow</p>
+      <h2>Batch analysis</h2>
+      <p class="section-lede">Upload a CSV of messages (any text column) and scan up to 500 rows in one pass — useful for auditing an inbox export or validating a dataset before training on it.</p>
+
+      <div class="card">
+        <div class="batch-controls">
+          <input type="file" id="batchFileInput" accept=".csv" hidden>
+          <button class="btn btn-outline" id="batchUploadBtn">Choose CSV file</button>
+          <span id="batchFileName" class="tag">No file selected</span>
+          <button class="btn btn-primary" id="batchRunBtn">Run batch scan</button>
+          <button class="btn btn-ghost" id="batchDownloadBtn" hidden>Download results (.csv)</button>
+        </div>
+        <div class="form-error" id="batchError" hidden></div>
+        <div id="batchSummary" class="batch-summary" hidden></div>
+        <div id="batchTableWrap" class="table-scroll" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section class="section alt" id="dashboard">
+    <div class="section-inner">
+      <p class="eyebrow">Model health</p>
+      <h2>Dashboard</h2>
+      <p class="section-lede">A live read on the currently loaded model — refreshes automatically after every training run.</p>
+
+      <div class="dashboard-grid" id="dashboardGrid">
+        <div class="card dash-card">
+          <span class="dash-label">Status</span>
+          <span class="dash-value" id="dashStatus">Untrained</span>
+        </div>
+        <div class="card dash-card">
+          <span class="dash-label">Algorithm</span>
+          <span class="dash-value" id="dashAlgo">—</span>
+        </div>
+        <div class="card dash-card">
+          <span class="dash-label">Vocabulary size</span>
+          <span class="dash-value" id="dashVocab">—</span>
+        </div>
+        <div class="card dash-card">
+          <span class="dash-label">Training examples</span>
+          <span class="dash-value" id="dashTotal">—</span>
+        </div>
+        <div class="card dash-card">
+          <span class="dash-label">Spam / Legit split</span>
+          <span class="dash-value" id="dashSplit">—</span>
+        </div>
+        <div class="card dash-card">
+          <span class="dash-label">F1 score</span>
+          <span class="dash-value" id="dashF1">—</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="section" id="history">
+    <div class="section-inner">
+      <div class="history-head">
+        <div>
+          <p class="eyebrow">Session log</p>
+          <h2>Detection history</h2>
+        </div>
+        <button class="btn btn-ghost" id="clearHistoryBtn">Clear history</button>
+      </div>
+      <div class="card">
+        <div id="historyEmpty" class="empty-note">No detections yet. Every scan you run gets logged here.</div>
+        <div id="historyTableWrap" class="table-scroll" hidden></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="footer-brand-name">Sentinel</span>
+      <p class="footer-tagline">An open, explainable spam &amp; phishing classifier — bring your own data, keep your own model.</p>
+    </div>
+
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#dataset">Dataset upload</a>
+        <a href="#train">Train model</a>
+        <a href="#detect">Live detection</a>
+        <a href="#batch">Batch analysis</a>
+      </div>
+      <div class="footer-col">
+        <h4>Model</h4>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#history">History</a>
+        <a href="https://www.kaggle.com/datasets?search=spam" target="_blank" rel="noopener">Find datasets on Kaggle</a>
+      </div>
+      <div class="footer-col">
+        <h4>Stack</h4>
+        <span class="footer-static">Flask · scikit-learn</span>
+        <span class="footer-static">TF-IDF · Logistic Regression</span>
+        <span class="footer-static">Pandas · Vanilla JS</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; <span id="year"></span> Sentinel. Runs entirely on your own machine and your own data.</span>
+    <span>Built for learning &amp; real-world experimentation — not a substitute for enterprise-grade email security.</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+[
+  {
+    "id": "704e38ed",
+    "text": "doskoris <Aleksandra-reitodes@AISAN-IND.CO.JP>\tuser2.15@gvc.ceas-challenge.cc\tWed, 06 Aug 2008 01:49:52 +0200\tMassage techniques to help your man pole\t\"Be well equipped for all situations as long as y",
+    "prediction": "spam",
+    "confidence": 92.42,
+    "timestamp": "2026-07-13T14:03:09.771041+00:00"
+  },
+  {
+    "id": "7e74da55",
+    "text": "Sidney Markowitz <wrzzpv@sidney.com>\tMichael Parker <ivqrnai@pobox.com>\tWed, 06 Aug 2008 12:36:28 +1300\tRe: svn commit: r619753 - in /spamassassin/trunk: lib/Mail/SpamAssassin/PerMsgStatus.pm lib/Mail",
+    "prediction": "legitimate",
+    "confidence": 99.38,
+    "timestamp": "2026-07-13T14:02:16.172364+00:00"
+  },
+  {
+    "id": "6471ebd7",
+    "text": "Subject: URGENT \u2014 verify your account now!!\n\nDear customer, we detected unusual activity. Click here immediately to confirm your identity or your account will be suspended within 24 hours: http://secu",
+    "prediction": "spam",
+    "confidence": 96.31,
+    "timestamp": "2026-07-13T14:00:27.755938+00:00"
+  },
+  {
+    "id": "b8c689e9",
+    "text": "Aaron Kulkis <cmiqlkx91@hotpop.com>\topensuse <wkilxloc@opensuse.org>\tTue, 05 Aug 2008 17:31:29 -0500\tRe: [opensuse] OpenSuse 11\t\"Benji Weber wrote:\n> On 07/02/2008, Mike  wrote:\n>>> The notion that ma",
+    "prediction": "legitimate",
+    "confidence": 99.95,
+    "timestamp": "2026-07-13T13:18:52.610094+00:00"
+  },
+  {
+    "id": "20a07484",
+    "text": "Subject: URGENT \u2014 verify your account now!!\n\nDear customer, we detected unusual activity. Click here immediately to confirm your identity or your account will be suspended within 24 hours: http://secu",
+    "prediction": "spam",
+    "confidence": 96.31,
+    "timestamp": "2026-07-13T13:13:46.185342+00:00"
+  },
+  {
+    "id": "8dfdbe34",
+    "text": "Subject: URGENT \u2014 verify your account now!!\n\nDear customer, we detected unusual activity. Click here immediately to confirm your identity or your account will be suspended within 24 hours: http://secu",
+    "prediction": "spam",
+    "confidence": 96.31,
+    "timestamp": "2026-07-09T13:28:29.358219+00:00"
+  },
+  {
+    "id": "f1678dc6",
+    "text": "Subject: URGENT \u2014 verify your account now!!\n\nDear customer, we detected unusual activity. Click here immediately to confirm your identity or your account will be suspended within 24 hours: http://secu",
+    "prediction": "spam",
+    "confidence": 96.31,
+    "timestamp": "2026-07-09T13:13:10.910784+00:00"
+  },
+  {
+    "id": "24c3a29b",
+    "text": "Subject: URGENT \u2014 verify your account now!!\n\nDear customer, we detected unusual activity. Click here immediately to confirm your identity or your account will be suspended within 24 hours: http://secu",
+    "prediction": "spam",
+    "confidence": 96.31,
+    "timestamp": "2026-07-09T13:12:05.263165+00:00"
+  },
+  {
+    "id": "9c04cb90",
+    "text": "Racing <uqyrmo@sailing.ie>\tuser5@gvc.ceas-challenge.cc\tWed, 06 Aug 2008 00:31:14 +0100\tRE: Trial IRC Certificate Application\t\"\nPlelim,\n\nJust to remind you that if a certificate is needed in a hurry it",
+    "prediction": "legitimate",
+    "confidence": 99.51,
+    "timestamp": "2026-07-04T08:29:13.252315+00:00"
+  },
+  {
+    "id": "2757b732",
+    "text": "Alejandra Levy <rehearsings46@gametea.com>\tuser2.13@gvc.ceas-challenge.cc\tTue, 05 Aug 2008 21:31:34 -0200\tIt combines the best of Creative Suite 3 Design Premium, Web Premium, and Production Premium e",
+    "prediction": "spam",
+    "confidence": 77.62,
+    "timestamp": "2026-07-04T08:28:40.340154+00:00"
+  },
+  {
+    "id": "82b71a6d",
+    "text": "Subject: URGENT \u2014 verify your account now!!\n\nDear customer, we detected unusual activity. Click here immediately to confirm your identity or your account will be suspended within 24 hours: http://secu",
+    "prediction": "spam",
+    "confidence": 96.31,
+    "timestamp": "2026-07-04T08:26:01.304979+00:00"
+  }
+]
